@@ -5,6 +5,7 @@ This Golang script is used alongside a file which contains URLs to get the retur
 # Installation
 
 `git clone https://github.com/raaz4n/r3turn.git`
+
 `cd r3turn`
 
 If the program doesn't work, recompile using
@@ -13,7 +14,9 @@ If the program doesn't work, recompile using
 # Usage
 
 This program is meant to be used alongside another file which contains URLs.
+
 Windows: `r3turn.exe <file> <ms>` or `.\r3turn.exe <file> <ms>`
+
 Linux/macOS: `./r3turn <file> <ms>`
 
 If the responses coming through aren't what's expected, you can increase the amount of ms you want the request to stay for. I recommend 200ms personally
