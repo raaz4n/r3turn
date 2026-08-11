@@ -40,6 +40,8 @@ func main() {
 
 	scanner := bufio.NewScanner(file)
 
+	fmt.Println("In progress. All requests that return errors will be discarded. If no results are found, try increasing the ms.")
+
 	for scanner.Scan() {
 		line := scanner.Text()
 		// check if the string contains https://
@@ -49,7 +51,6 @@ func main() {
 
 		resp, err := client.Get(line)
 		if err != nil {
-			fmt.Printf("Failed to send req to %s\n", line)
 			continue
 		}
 
