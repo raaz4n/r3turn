@@ -40,7 +40,7 @@ func main() {
 
 	scanner := bufio.NewScanner(file)
 
-	fmt.Println("In progress. All requests that return errors will be discarded. If no results are found, try increasing the ms.")
+	fmt.Println("In progress. All requests that return errors will be discarded. If no results are found, try increasing the ms.\n")
 
 	for scanner.Scan() {
 		line := scanner.Text()
@@ -60,4 +60,6 @@ func main() {
 
 		fmt.Printf("[%s] %s\n", status, line)
 	}
+
+	fmt.Println("\nDone!")
 }
