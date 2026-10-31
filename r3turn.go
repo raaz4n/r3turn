@@ -11,6 +11,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 )
 
@@ -40,6 +41,9 @@ func main() {
 
 	scanner := bufio.NewScanner(file)
 
+	sem := make(chan struct{}, 20)
+	var wg sync.WaitGroup
+
 	fmt.Println("In progress. All requests that return errors will be discarded. If no results are found, try increasing the ms.\n")
 
 	for scanner.Scan() {
@@ -49,17 +53,26 @@ func main() {
 			line = "https://" + line
 		}
 
-		resp, err := client.Get(line)
-		if err != nil {
-			continue
-		}
+		sem <- struct{}{}
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			defer func() { <-sem }()
 
-		defer resp.Body.Close()
+			resp, err := client.Get(line)
+			if err != nil {
+				return
+			}
 
-		status := resp.Status
+			defer resp.Body.Close()
 
-		fmt.Printf("[%s] %s\n", status, line)
+			status := resp.Status
+
+			fmt.Printf("[%s] %s\n", status, line)
+		}()
 	}
+
+	wg.Wait()
 
 	fmt.Println("\nDone!")
 }
