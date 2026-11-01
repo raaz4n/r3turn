@@ -1,5 +1,5 @@
 // r3turn by raaz4n
-// The usage for this program is ./r3turn <file name> <request time in milliseconds>
+// The usage for this program is ./r3turn <file name> <request time in milliseconds> <concurrent workers>
 // It is most efficient when used alongside subfinder.
 
 package main
@@ -16,8 +16,8 @@ import (
 )
 
 func main() {
-	if len(os.Args) < 3 {
-		fmt.Println("Usage: ./r3turn <file> <request time in ms>")
+	if len(os.Args) < 4 {
+		fmt.Println("Usage: ./r3turn <file> <request time in ms> <concurrent workers>")
 		return
 	}
 
@@ -41,7 +41,13 @@ func main() {
 
 	scanner := bufio.NewScanner(file)
 
-	sem := make(chan struct{}, 20)
+	concurrency, err := strconv.Atoi(os.Args[3])
+	if err != nil || concurrency < 1 {
+		fmt.Println("Invalid concurrency value")
+		return
+	}
+
+	sem := make(chan struct{}, concurrency)
 	var wg sync.WaitGroup
 
 	fmt.Println("In progress. All requests that return errors will be discarded. If no results are found, try increasing the ms.\n")

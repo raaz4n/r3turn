@@ -15,8 +15,8 @@ If the program doesn't work, recompile using
 
 This program is meant to be used alongside another file which contains URLs.
 
-Windows: `r3turn.exe <file> <ms>` or `.\r3turn.exe <file> <ms>`
+Windows: `r3turn.exe <file> <ms> <concurrent workers>` or `.\r3turn.exe <file> <ms> <concurrent workers>`
 
-Linux/macOS: `./r3turn <file> <ms>`
+Linux/macOS: `./r3turn <file> <ms> <concurrent workers>`
 
 If the responses coming through aren't what's expected, you can increase the amount of ms you want the request to stay for. I recommend 200ms personally
